@@ -50,7 +50,37 @@ app.get("/api", async (req, res) => {
                     codecs: format.codecs,
                     type: "",
                 })),
-        };
+                allFormats: info.formats
+                .map((format) => ({
+                    url: format.url,
+                    quality: format.qualityLabel,
+                    mimeType: format.mimeType,
+                    bitrate: format.bitrate,
+                    contentLength: format.contentLength,
+                    format: "",
+                    codecs: format.codecs,
+                    type: "",
+                })),
+            };
+    
+            data.allFormats.forEach((format) => {
+                if (format.mimeType.includes("video/mp4")) {
+                    format.type = "video";
+                    format.format = "mp4";
+                } else if (format.mimeType.includes("video/webm")) {
+                    format.type = "video";
+                    format.format = "webm";
+                } else if (format.mimeType.includes("audio/mp4")) {
+                    format.type = "audio";
+                    format.format = "mp4a";
+                } else if (format.mimeType.includes("audio/webm")) {
+                    format.type = "audio";
+                    format.format = "webma";
+                } else {
+                    format.type = "unknown";
+                    format.format = "unknown";
+                }
+            });
 
         data.formats.forEach((format) => {
             if (format.mimeType.includes("video/mp4")) {
@@ -128,7 +158,37 @@ app.post("/api", async (req, res) => {
                     codecs: format.codecs,
                     type: "",
                 })),
+            allFormats: info.formats
+            .map((format) => ({
+                url: format.url,
+                quality: format.qualityLabel,
+                mimeType: format.mimeType,
+                bitrate: format.bitrate,
+                contentLength: format.contentLength,
+                format: "",
+                codecs: format.codecs,
+                type: "",
+            })),
         };
+
+        data.allFormats.forEach((format) => {
+            if (format.mimeType.includes("video/mp4")) {
+                format.type = "video";
+                format.format = "mp4";
+            } else if (format.mimeType.includes("video/webm")) {
+                format.type = "video";
+                format.format = "webm";
+            } else if (format.mimeType.includes("audio/mp4")) {
+                format.type = "audio";
+                format.format = "mp4a";
+            } else if (format.mimeType.includes("audio/webm")) {
+                format.type = "audio";
+                format.format = "webma";
+            } else {
+                format.type = "unknown";
+                format.format = "unknown";
+            }
+        });
 
         data.formats.forEach((format) => {
             if (format.mimeType.includes("video/mp4")) {
@@ -168,7 +228,7 @@ app.post("/api", async (req, res) => {
     }
 });
 
-const port = 3000;
+const port = 4000;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
